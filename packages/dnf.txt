@@ -1,0 +1,7 @@
+# Fedora / RHEL. One package per line; full-line comments only.
+# curl is deliberately absent: images ship curl-minimal, which conflicts with
+# the full package. bootstrap.sh only requires a working `curl` binary.
+git
+fish
+gnupg2
+pass

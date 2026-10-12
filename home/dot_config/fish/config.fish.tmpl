@@ -1,0 +1,20 @@
+# Managed by chezmoi: edit the dotfiles repo, not this file.
+
+# --global (not the universal default) so nothing is persisted to fish_variables.
+fish_add_path --global $HOME/.local/bin
+{{- if eq .chezmoi.os "darwin" }}
+
+if test -x /opt/homebrew/bin/brew
+    /opt/homebrew/bin/brew shellenv | source
+end
+{{- end }}
+
+if status is-interactive
+    set -g fish_greeting
+
+    # pinentry needs to know the terminal, or `pass`/gpg fail over SSH and WSL.
+    set -gx GPG_TTY (tty 2>/dev/null)
+
+    abbr --add g git
+    abbr --add gs 'git status --short --branch'
+end

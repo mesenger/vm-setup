@@ -1,0 +1,8 @@
+# This repo is public. Keep anything secret-shaped out by construction.
+*.gpg
+*.asc
+*.key
+*.pem
+.env
+.env.*
+.password-store/

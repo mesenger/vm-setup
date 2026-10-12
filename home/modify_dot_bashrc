@@ -1,0 +1,29 @@
+#!/bin/sh
+# chezmoi modify_ script: reads the current ~/.bashrc on stdin, writes the new one
+# on stdout. Owns only the marker-delimited block below and leaves the distro's
+# .bashrc alone, so re-applying replaces the block instead of appending another.
+
+awk '
+  /^# >>> dotfiles >>>$/ { skip = 1; next }
+  /^# <<< dotfiles <<<$/ { skip = 0; next }
+  !skip { print }
+'
+
+cat <<'EOF'
+# >>> dotfiles >>>
+# Managed by chezmoi (dotfiles repo). Do not edit between the markers.
+case $- in
+  *i*)
+    GPG_TTY=$(tty 2>/dev/null) && export GPG_TTY
+    # Hand interactive shells to fish. bash stays the login shell, so a broken
+    # fish can't lock you out; DOTFILES_NO_FISH=1 skips the handoff. A bash
+    # started from inside fish is left alone, so you can still drop to bash.
+    if [ -z "${DOTFILES_NO_FISH:-}" ] && [ -z "${BASH_EXECUTION_STRING:-}" ] \
+        && command -v fish >/dev/null 2>&1 \
+        && [ "$(ps -o comm= -p "$PPID" 2>/dev/null)" != fish ]; then
+      exec fish
+    fi
+    ;;
+esac
+# <<< dotfiles <<<
+EOF

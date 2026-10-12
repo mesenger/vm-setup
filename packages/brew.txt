@@ -1,0 +1,6 @@
+# macOS (Homebrew formulae). One package per line; full-line comments only.
+git
+fish
+gnupg
+pass
+pinentry-mac

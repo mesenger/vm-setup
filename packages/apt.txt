@@ -1,0 +1,7 @@
+# Debian / Ubuntu. One package per line; full-line comments only.
+ca-certificates
+curl
+git
+fish
+gnupg
+pass
